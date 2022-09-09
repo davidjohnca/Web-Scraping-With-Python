@@ -8,7 +8,6 @@ url_list = []
 url_statuscodes = []
 url_statuscodes.append(["url","status_code"]) # set the file header for output
 
-
 def getStatuscode(url):
     try:
         r = requests.head(url,verify=False,timeout=5) # it is faster to only request the header
@@ -16,8 +15,6 @@ def getStatuscode(url):
 
     except:
         return -1
-    
-print('Reading file...')    
 
 # Url checks from file Input
 # use one url per line that should be checked
@@ -25,8 +22,6 @@ with open('list_of_urls_to_check.csv', newline='') as f:
     reader = csv.reader(f)
     for row in reader:
         url_list.append(row[0])
-
-print('Checking status codes...')        
         
 # Loop over full list
 for url in url_list:
@@ -34,8 +29,6 @@ for url in url_list:
     check = [url,getStatuscode(url)]
     time.sleep(SLEEP)
     url_statuscodes.append(check)
-    
-print('Saving results in "urls_withStatusCode.csv"...')
 
 # Save file
 with open("urls_withStatusCode.csv", "w", newline="") as f:
