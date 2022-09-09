@@ -16,7 +16,8 @@ def getStatuscode(url):
 
     except:
         return -1
-
+    
+print('Reading file...')    
 
 # Url checks from file Input
 # use one url per line that should be checked
@@ -25,15 +26,20 @@ with open('list_of_urls_to_check.csv', newline='') as f:
     for row in reader:
         url_list.append(row[0])
 
-
+print('Checking status...')        
+        
 # Loop over full list
 for url in url_list:
-    print(url)
+    #print(url)
     check = [url,getStatuscode(url)]
     time.sleep(SLEEP)
     url_statuscodes.append(check)
+    
+print('Saving results in "urls_withStatusCode.csv"...')
 
 # Save file
 with open("urls_withStatusCode.csv", "w", newline="") as f:
     writer = csv.writer(f)
     writer.writerows(url_statuscodes)
+
+print('Task complete!')    
