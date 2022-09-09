@@ -20,7 +20,7 @@ def getStatuscode(url):
 
 # Url checks from file Input
 # use one url per line that should be checked
-with open('audiusReportedLinksUMG(2022-08-01 to present).csv', newline='') as f:
+with open('list_of_urls_to_check.csv', newline='') as f:
     reader = csv.reader(f)
     for row in reader:
         url_list.append(row[0])
