@@ -26,7 +26,7 @@ with open('list_of_urls_to_check.csv', newline='') as f:
     for row in reader:
         url_list.append(row[0])
 
-print('Checking status...')        
+print('Checking status codes...')        
         
 # Loop over full list
 for url in url_list:
