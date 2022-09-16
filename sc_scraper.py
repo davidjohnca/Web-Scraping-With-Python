@@ -1,7 +1,7 @@
 import scrapy
 
 class MySpider(scrapy.Spider):
-    name = 'crawler'
+    name = 'scraper'
     
 # specify the allowed domain(s)
     allowed_domains = ['example.com']
