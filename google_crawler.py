@@ -1,42 +1,64 @@
-from bs4 import BeautifulSoup
 from selenium import webdriver
-# from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
 import pandas as pd
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument("--headless")
+chrome_options = Options()
+chrome_options.add_argument('--headless')
 
 
 class GoogleSpider:
     def link_scraper():
+        url = 'https://www.google.com/'
         driver = webdriver.Chrome(
-            '/Users/David/OneDrive - IFPI/Desktop/My Python Files/chromedriver', chrome_options=chrome_options)
+            '/Users/davidaceres/Desktop/my_python_files/chromedriver', options=chrome_options)
+        driver.get(url)
 
-        # Query to obtain links
+        driver.implicitly_wait(2)
+
+        cookies = driver.find_element(By.XPATH, '//*[@id="L2AGLb"]/div')
+        cookies.click()
+
+        driver.implicitly_wait(2)
+
+        search = driver.find_element(
+            By.XPATH, '/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input')
+        search.send_keys('python courses london')
+        search.submit()
+
+        driver.implicitly_wait(2)
+
         query = str(input('Enter your query: '))
         print('GoogleSpider has started crawling')
         print('Scraping all available links')
 
-        # Initiate empty list to capture final results
         links = []
 
-        # Specify number of pages on Google Search, each page contains 10 #links
-        n_pages = 30
-        for page in range(1, n_pages):
-            url = "http://www.google.com/search?q=" + \
+        pages = 20
+
+        for page in range(1, pages):
+            url = url = "http://www.google.com/search?q=" + \
                 query + "&start=" + str((page - 1) * 10)
             driver.get(url)
             soup = BeautifulSoup(driver.page_source, 'html.parser')
-            # (OR)soup = BeautifulSoup(r.text, 'html.parser')
-
             search = soup.find_all('div', class_="yuRUbf")
+
             for item in search:
-                links.append(item.a.get('href'))
+                print(item.a.get('href'))
+
+                link_item = {
+                    'links': item.a.get('href')
+                }
+
+                links.append(link_item)
 
         df = pd.DataFrame(links)
-        df.to_csv('google_links.csv', index=False)
 
-        print('Task complete! All scraped links are now saved in google_links.csv')
+        print(df)
+        print('Task complete!')
 
 
 GoogleSpider.link_scraper()
