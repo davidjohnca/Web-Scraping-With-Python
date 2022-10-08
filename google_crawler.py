@@ -23,9 +23,9 @@ for page in range(1, n_pages):
 
     search = soup.find_all('div', class_="yuRUbf")
     for h in search:
-        time.sleep(2)
         links.append(h.a.get('href'))
         print(h.a.get('href'))
+        time.sleep(2)
 
 df = pd.DataFrame(links)
 df.to_csv('google_links.csv', index=False)
