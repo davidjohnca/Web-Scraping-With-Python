@@ -21,7 +21,7 @@ for x in range(1, 11):
     }
     quotes_list.append(quote_elements)
     print(quote_elements)
-    #time.sleep(2)
+    time.sleep(2)
 
 df = pd.DataFrame(quotes_list)
 df.to_csv('quotes.csv', index=False)
