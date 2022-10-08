@@ -14,9 +14,9 @@ soup = BeautifulSoup(r.content, 'html.parser')
 
 all_info = soup.find_all('exampleTag', class_='exampleValue')
 
-for i in all_info:
+for item in all_info:
   time.sleep(2)
-  exampleElement = i.find('exampleTag', class_='exampleValue')
+  exampleElement = item.find('exampleTag', class_='exampleValue')
   elements = {
     'exampleKey':exampleElement,
   }
