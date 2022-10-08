@@ -31,4 +31,5 @@ df = pd.DataFrame(links)
 df.to_csv('google_links.csv', index=False)
 
 print('*' * 50)
+print(f'Number of scraped items: {len(links)}')
 print('Task complete!')
