@@ -1,29 +1,31 @@
-from bs4 import BeautifulSoup 
-import requests 
-import pandas as pd 
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
 import time
 
-results_list = []
+quotes_list = []
 
-for x in range(1,11): 
-  print(f'Page {x} is being scraped')
+for x in range(1, 11):
+  url = f'http://quotes.toscrape.com/page/{x}/'
+  response = requests.get(url)
+  soup = BeautifulSoup(response.content, 'html.parser')
 
-url = f'http://www.example.com/page{x}'
-r = requests.get(url)
-soup = BeautifulSoup(r.content, 'html.parser')
+  quotes = soup.find_all('div', class_='quote')
 
-all_info = soup.find_all('exampleTag', class_='exampleValue')
+  for quote in quotes:
+    text = quote.find('span', {'class': 'text'})
+    author = quote.find('small', {'class': 'author'})
+    quote_elements = {
+      'Text': text.text.replace('\n', '').replace('\t', '').strip(),
+      'Author': author.text.replace('\n', '').replace('\t', '').strip(),
+    }
+    quotes_list.append(quote_elements)
+    print(quote_elements)
+    #time.sleep(2)
 
-for item in all_info:
-  time.sleep(2)
-  exampleElement = item.find('exampleTag', class_='exampleValue')
-  elements = {
-    'exampleKey':exampleElement,
-  }
-  results_list.append(elements)
-
-df = pd.DataFrame(results_list)
-df.to_csv('example.xlsx', index=False)
+df = pd.DataFrame(quotes_list)
+df.to_csv('quotes.csv', index=False)
 
 print('*' * 50)
+print(f'Number of scraped items: {len(quotes_list)}')
 print('Task complete!')
